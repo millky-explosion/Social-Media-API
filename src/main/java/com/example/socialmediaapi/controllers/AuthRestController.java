@@ -49,4 +49,6 @@ public class AuthRestController {
         return userService.getUserById(customPrincipal.getId())
                 .map(userMapper::map);
     }
+
+
 }

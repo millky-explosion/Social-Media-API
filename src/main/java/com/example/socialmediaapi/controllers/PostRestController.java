@@ -27,8 +27,26 @@ public class PostRestController {
                 .map(postMapper::map);
     }
 
+    @GetMapping("/{id}")
+    public Mono<PostDto> findById (@PathVariable(value = "id") Long id) {
+        return postService.findById(id).map(postMapper::map);
+    }
+
+
+    @PostMapping("/{id}/update")
+    public Mono<Void> updatePost (@RequestBody PostDto dto,
+                                  @PathVariable(value = "id") Long id) {
+        PostEntity entity = postMapper.map(dto);
+        return postService.updatePost(dto.getText(), dto.getTitle(), id);
+    }
+
+    @PostMapping("/{id}/delete")
+    public Mono<Void> deletePost (@PathVariable(value = "id") Long id) {
+       return postService.deletePost(id);
+    }
+
     @GetMapping("/news")
-    public Flux<PostEntity> getUserInfo(Authentication authentication) {
+    public Flux<PostEntity> getPostInfo(Authentication authentication) {
         return postService.findAll();
     }
 }
