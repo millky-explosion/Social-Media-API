@@ -6,7 +6,7 @@
 ![Alt text](https://imgur.com/a/dcZfhA.png)
 
 #### Документация с использованием Swagger-Ui (WebFlux)
-![Alt text](https://imgur.com/a/6yAeWa6.png)
+![Alt text](https://i.imgur.com/CEnjdN5.png)
 
 #### Авторизация с использованием токена
 ![Alt text](https://i.imgur.com/Dz5mHFa.png)
