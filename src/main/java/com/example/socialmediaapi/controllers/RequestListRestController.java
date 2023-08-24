@@ -22,7 +22,10 @@ public class RequestListRestController {
      private final RequestListService requestListService;
      private final UserMapper userMapper;
 
-    @Operation(summary = "Отправление реквеста в друзья пользователю ")
+    @Operation(summary = "Отправление реквеста в друзья пользователю ",
+     description = "Отправлять заявки в друзья могут все зарегестрированные" +
+             " и аутентифицированные пользователи, пользователь не может отправить заявку в друзья " +
+             "сам себе.")
     @PostMapping("/{id}/send-request")
     public Mono<RequestListEntity> sendRequest (@PathVariable(value = "id") Long id,
                                                 Authentication authentication) {
@@ -34,20 +37,28 @@ public class RequestListRestController {
 
          return requestListService.sendRequestToUser(requestFriendList);
      }
-     @Operation(summary = "Удаление заявки в дурзья по {id} ")
+     @Operation(summary = "Удаление заявки в дурзья по {id} ",
+             description = "У пользовтеля есть право удалять только те заявки, " +
+                     "которые он отправлял другим пользователям, " +
+                     "в случае попытки удаления несуществующей или же " +
+                     "не своей заявки, будет ошибка.  ")
      @PostMapping("/{id}/deleteFriendRequest")
      public Mono<RequestListEntity> deleteFriendRequestById (@PathVariable(value = "id") Long id,
                                                              Authentication authentication) {
          CustomPrincipal customPrincipal = (CustomPrincipal) authentication.getPrincipal();
          return requestListService.deleteRequestById(customPrincipal.getId(), id);
      }
-     @Operation(summary = "Вывод всех отправленных заявок Пользователя ")
+     @Operation(summary = "Вывод всех отправленных заявок пользователя ",
+      description = "Выводится список отправленных заявок " +
+              "пользователя, начиная с первой отправленной")
      @GetMapping("/requests")
      public Mono<RequestListEntity> allRequests (Authentication authentication) {
         CustomPrincipal customPrincipal = (CustomPrincipal) authentication.getPrincipal();
          return requestListService.findAllRequestsByUserID(customPrincipal.getId());
       }
-     @Operation(summary = "Вывод заявки в друзья по /{id} ")
+     @Operation(summary = "Вывод заявки в друзья по /{id} ",
+     description = "У пользователя есть возможность посмотреть " +
+             "информацию о отправленной заявке по ее {id}")
      @GetMapping("/{id}")
      public Mono<UserDto> findById (@PathVariable(value = "id") Long id) {
         return userService.getUserById(id).map(userMapper::map);
