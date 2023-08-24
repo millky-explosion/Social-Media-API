@@ -7,6 +7,5 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserRepositoryTest {
     private static final long ID = 1L;
-    private UserRepository userRepository;
 
 }

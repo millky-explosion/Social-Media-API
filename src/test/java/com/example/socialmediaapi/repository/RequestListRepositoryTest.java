@@ -7,5 +7,4 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RequestListRepositoryTest {
     private static final long ID = 1L;
-    private RequestListRepository repository;
 }

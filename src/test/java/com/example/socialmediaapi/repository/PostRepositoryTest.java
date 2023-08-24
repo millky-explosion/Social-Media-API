@@ -9,6 +9,5 @@ import org.junit.jupiter.api.Test;
 @RequiredArgsConstructor
 public class PostRepositoryTest {
     private static final long ID = 1L;
-    private final PostRepository repository;
 
 }
