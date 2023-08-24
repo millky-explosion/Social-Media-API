@@ -19,7 +19,7 @@ public class RequestListService {
         });
     }
 
-    public Mono<Void> deletePost (Long id) {
+    public Mono<Void> deleteRequest (Long id) {
         return friendListRepository.deleteById(id).doOnSuccess(u -> {
             log.info("Success DELETE in RequestListService : {} ", u);
         });
@@ -31,6 +31,13 @@ public class RequestListService {
         });
     }
 
+    public Mono<RequestListEntity> deleteRequestById (Long userID, Long friendID) {
+        return friendListRepository.deleteRequestListEntityByFriend_request_idAndUser_id(userID, friendID);
+    }
+
+   public Mono<RequestListEntity> findAllRequestsByUserID (Long id) {
+        return friendListRepository.findAllById(id);
+    }
     public Flux<RequestListEntity> findAll () {
         return friendListRepository.findAll();
     }

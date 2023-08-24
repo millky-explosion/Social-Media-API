@@ -19,15 +19,8 @@ import reactor.core.publisher.Mono;
 @Tag(name = "RequestListRestController", description = "Контроллер для работы с заявками")
 public class RequestListRestController {
      private final UserService userService;
-     private final RequestListService friendListService;
+     private final RequestListService requestListService;
      private final UserMapper userMapper;
-
-    @Operation(summary = "Вывод заявки в друзья по /{id} ")
-    @GetMapping("/{id}")
-     public Mono<UserDto> findById (@PathVariable(value = "id") Long id) {
-         return userService.getUserById(id).map(userMapper::map);
-     }
-
 
     @Operation(summary = "Отправление реквеста в друзья пользователю ")
     @PostMapping("/{id}/send-request")
@@ -39,6 +32,25 @@ public class RequestListRestController {
          requestFriendList.setUser_id(id);
          requestFriendList.setFriend_request_id(customPrincipal.getId());
 
-         return friendListService.sendRequestToUser(requestFriendList);
+         return requestListService.sendRequestToUser(requestFriendList);
      }
+     @Operation(summary = "Удаление заявки в дурзья по {id} ")
+     @PostMapping("/{id}/deleteFriendRequest")
+     public Mono<RequestListEntity> deleteFriendRequestById (@PathVariable(value = "id") Long id,
+                                                             Authentication authentication) {
+         CustomPrincipal customPrincipal = (CustomPrincipal) authentication.getPrincipal();
+         return requestListService.deleteRequestById(customPrincipal.getId(), id);
+     }
+     @Operation(summary = "Вывод всех отправленных заявок Пользователя ")
+     @GetMapping("/requests")
+     public Mono<RequestListEntity> allRequests (Authentication authentication) {
+        CustomPrincipal customPrincipal = (CustomPrincipal) authentication.getPrincipal();
+         return requestListService.findAllRequestsByUserID(customPrincipal.getId());
+      }
+     @Operation(summary = "Вывод заявки в друзья по /{id} ")
+     @GetMapping("/{id}")
+     public Mono<UserDto> findById (@PathVariable(value = "id") Long id) {
+        return userService.getUserById(id).map(userMapper::map);
+    }
+
 }
