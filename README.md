@@ -3,7 +3,7 @@
 
 
 #### В качестве СУБД выступает PostgreSQL, Модель БД приведена ниже
-![Alt text](https://imgur.com/a/dcZfhA.png)
+![Alt text](https://i.imgur.com/a/dcZfhA.png)
 
 #### Документация с использованием Swagger-Ui (WebFlux)
 ![Alt text](https://i.imgur.com/CEnjdN5.png)  
