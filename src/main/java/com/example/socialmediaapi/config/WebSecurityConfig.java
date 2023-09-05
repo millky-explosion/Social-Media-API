@@ -42,23 +42,15 @@ public class WebSecurityConfig  {
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http, AuthenticationManager authenticationManager) {
-        return http
-                .csrf().disable()
-                .authorizeExchange()
-                .pathMatchers(whiteList)
-                .permitAll()
-                .and()
-                .exceptionHandling()
-                .authenticationEntryPoint((swe , e) -> {
+        return http.csrf(csrf->csrf.disable()
+                        .authorizeExchange(authorizeExchange -> authorizeExchange.pathMatchers(whiteList).permitAll()))
+                .exceptionHandling(exceptionHandling-> exceptionHandling.authenticationEntryPoint((swe , e) -> {
                     log.error("IN securityWebFilterChain - unauthorized error: {}", e.getMessage());
                     return Mono.fromRunnable(() -> swe.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED));
-                })
-                .accessDeniedHandler((swe, e) -> {
+                }) .accessDeniedHandler((swe, e) -> {
                     log.error("IN securityWebFilterChain - access denied: {}", e.getMessage());
-
                     return Mono.fromRunnable(() -> swe.getResponse().setStatusCode(HttpStatus.FORBIDDEN));
-                })
-                .and()
+                }))
                 .addFilterAt(bearerAuthenticationFilter(authenticationManager), SecurityWebFiltersOrder.AUTHENTICATION)
                 .build();
     }
