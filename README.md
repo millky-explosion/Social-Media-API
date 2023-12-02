@@ -1,5 +1,5 @@
 # Social-Media-API
-# Тестовое Задание от Effective Mobile (Java Junior Developer)
+# Тестовое Задание от Effective Mobile 
 
 
 #### В качестве СУБД выступает PostgreSQL, Модель БД приведена ниже
